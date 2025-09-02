@@ -30,7 +30,7 @@
 void _watch_enable_tcc(void);
 void cb_watch_buzzer_seq(void);
 
-static uint16_t _seq_position;
+ uint16_t _seq_position;
 static int8_t _tone_ticks, _repeat_counter;
 static int8_t _sequence_volume = 25;
 static bool _callback_running = false;

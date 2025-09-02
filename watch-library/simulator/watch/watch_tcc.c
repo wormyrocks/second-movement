@@ -34,7 +34,7 @@ static uint32_t gain_modifier;
 
 void cb_watch_buzzer_seq(void *userData);
 
-static uint16_t _seq_position;
+ uint16_t _seq_position;
 static int8_t _tone_ticks, _repeat_counter;
 static int8_t _sequence_volume = 25;
 static long _em_interval_id = 0;
@@ -59,13 +59,26 @@ void watch_buzzer_play_sequence(int8_t *note_sequence, void (*callback_on_end)(v
     // prepare buzzer
     watch_enable_buzzer();
     // initiate 64 hz callback
-    _em_interval_id = emscripten_set_interval(cb_watch_buzzer_seq, (double)(1000/128), (void *)NULL);
+    _em_interval_id = emscripten_set_interval(cb_watch_buzzer_seq, (double)(1000/112), (void *)NULL);
 }
-
+#include <stdio.h>
+int n = 0;
+int b = 0 ;
+int start = 0;
 void cb_watch_buzzer_seq(void *userData) {
+    if (start) {
+    if (n % (32*4)==0) {
+        if (b%2)
+        watch_set_led_red();
+        else watch_set_led_green();
+        b++;
+    }
+    n++;}
+
     // callback for reading the note sequence
     (void) userData;
     if (_tone_ticks == 0) {
+        start = 1;
 start:
         if (_sequence[_seq_position] < 0 && _sequence[_seq_position + 1]) {
             // repeat indicator found
@@ -89,7 +102,11 @@ start:
         // volume can modify a repeat counter and repeat counter can modify volume,
         // so have to use a goto
         if (_sequence[_seq_position] == BUZZER_NOTE_SET_VOLUME && _sequence[_seq_position + 1]) {
-            _sequence_volume = _sequence[_seq_position + 1];
+            if (_sequence[_seq_position+1] == 69) {
+                printf("pos: %d tick %d\n", _seq_position, n);
+            } else {
+                _sequence_volume = _sequence[_seq_position + 1];
+            }
             _seq_position += 2;
             goto start;
         }
@@ -111,7 +128,7 @@ start:
             watch_buzzer_abort_sequence();
             if (_cb_finished) _cb_finished();
         }
-    } else _tone_ticks--;
+    } ; _tone_ticks--;
 }
 
 void watch_buzzer_abort_sequence(void) {

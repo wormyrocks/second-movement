@@ -827,12 +827,14 @@ static void _sleep_mode_app_loop(void) {
 }
 
 #endif
+extern uint16_t _seq_position;
 
 bool app_loop(void) {
     const watch_face_t *wf = &watch_faces[movement_state.current_face_idx];
     bool woke_up_for_buzzer = false;
 
     if (movement_state.watch_face_changed) {
+        printf("seq position: %d\n", _seq_position);
         if (movement_state.settings.bit.button_should_sound) {
             // low note for nonzero case, high note for return to watch_face 0
             watch_buzzer_play_note_with_volume(movement_state.next_face_idx ? BUZZER_NOTE_C7 : BUZZER_NOTE_C8, 50, movement_state.settings.bit.button_volume);

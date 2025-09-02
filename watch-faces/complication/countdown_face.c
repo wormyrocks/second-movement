@@ -214,8 +214,10 @@ static void settings_increment(countdown_state_t *state)
     return;
 }
 
-#define _root BUZZER_NOTE_A4
+#define _root BUZZER_NOTE_G4
+#define _root BUZZER_NOTE_D3
 
+#define d2 _root
 #define a1 _root - 5
 #define a2 _root + 7
 #define b2 _root + 9
@@ -235,186 +237,206 @@ static void settings_increment(countdown_state_t *state)
 #define d4 _root + 24
 #define g4 _root + 29
 
-#define _note 8
-#define _chord(X,Y,R) X, 2, Y, 2, -2, (((R))/5-1)
-#define _chord3(X,Y,Z,R) X, 1, Y, 1, Z, 1, -3, (((R))/6-1)
-#define _beat BUZZER_NOTE_REST,(_note/6)
+#define _note 6
 #define _rest(X) BUZZER_NOTE_REST,X
 #define _volume(X) BUZZER_NOTE_SET_VOLUME,X
 #define _note_s(N,B) ((N)-(B)),_rest(B)
 
-#define _low_note _root, _note_s(4*_note,2)
-#define _triplet _root, _note,c3, _note,d3, 2*_note
-#define _octave_triplet _chord(_root, d4, _note)+1, \
-    _chord(d4, c3, _note)+1, \
-    d3,2*_note
+#define _qnote (_note*4)
+#define _dqnote (_note*6)
+#define _enote (_note*2)
+#define _qnote_s (_note*4)-1,_rest(1)
+#define _enote_s (_note*2)-1,_rest(1)
 
+#define _low_note _root, _qnote
+#define _low_note_s _root, _qnote-2,_rest(2),
+
+#define __schord(X,Y) X,2,Y,2
+#define __schord3(X,Y,Z) X,1,Y,1,Z,1
+#define __chord(X,Y,R) X, 2, Y, 2, -2, (R/4-1)
+#define __chord3(X,Y,Z,R) X, 1, Y, 1, Z, 1, -3, (R/3-1)
+
+#define _tempo _volume(69)
+#define _triplet _root, (_note), c3, (_note), d3, _enote, _tempo
+#define _triplet_2 _root, (_note-1),_rest(1), _root, (_note-1),_rest(1), _root, (_enote-1), _rest(1),_tempo
+#define _octave_triplet __schord(_root, d4), \
+    __schord(d4, c3), \
+    d3,_enote,_tempo
+
+// _root,1,
+// _root,1,
+// _root,1,
+// _root,1,
+// _root,1,
+// _root,1,
+// _root,1,
+// _root,1,
+// -8, 3,
+// _volume(69),
 int8_t happy_birthday[] = {
-    _volume(5),
-    BUZZER_NOTE_REST, 4,
+
+//     _low_note,
+// _volume(69),
+//     __chord(c3,a3,_qnote),
+// _volume(69),
+// __chord3(d4,c3,a3,_qnote),
+// _volume(69),
+//     _triplet,
+// _volume(69),
+// _octave_triplet,
+// _volume(69),
+// 0,
+
+_rest(12),
+    _triplet,
+
+    f3, _qnote,
+    _root,_qnote,
+
+    e3, _dqnote,
+    _rest(_enote),
 
     _triplet,
 
-    f3, _note_s(4*_note,2),
-    _low_note,
+    f3, _qnote,
+    _root, _qnote,
+    e3, _qnote,
+    _root, _qnote,
+    g3, _qnote,
+    _root, _qnote_s,
 
-    e3, _note_s(4*_note,2),
-    _low_note,
+    -19, 3,
 
-    _triplet,
+    _triplet_2,
 
-    f3, _note_s(4*_note,2),
-    _root, _note_s(4*_note,2),
-    e3, _note_s(4*_note,2),
-    _root, _note_s(4*_note,2),
-    g3, _note_s(4*_note,2),
-    _root, _note_s(4*_note,2),
-    _volume(7),
+    __chord(f3, c4, _qnote), // I
+    _root,_qnote,
 
-    -27, 1,
-    _volume(10),
-
-    _triplet,
-
-    _chord(f3, c4, 4*_note),
-    _root,4*_note,
-
-    _chord(e3, b3, _note*4),
-    _chord(_root, a3, _note*4)-1,
-    _rest(1),
+    __chord(b3, e3, _qnote), // know
+    __chord(a3, d2, _enote), // the
+    d2, _enote_s,
 
     _triplet,
 
-    _chord(f3, c4, _note*4),
-    _root,4*_note,
+    __chord(f3, c4, _qnote), // Pie
+    _root,_qnote,
 
-    _chord(e3, b3, _note*4),
-    _root,4*_note,
-    _chord(_root,a3,_note*4),
+    __chord(e3, b3, _qnote), // Ces
+    _root,_qnote,
 
-    _chord(g3, d4, _note*4),
-    _root,4*_note,
+    // __chord(_root,a3,_qnote),
 
-    _volume(12),
+    __chord(g3, d4, _qnote), // Fit
+    _root,_qnote,
 
     _triplet,
 
-    _chord3(f3, c4, f4, _note*4),
-    _chord(_root, f4, _note*4),
-    _volume(13),
+    __chord3(f3, c4, f3, _qnote),
+    __chord(_root, f3, _qnote),
 
-    _chord3(e3, b3, e4, _note*4),
-    _chord3(_root, a3, d4, _note*2),
-    _root, _note*2+2,
-    _volume(14),
+    __chord3(e3, b3, e4, _qnote),
+    __chord3(_root, a3, d4, _enote),
+    _root, _enote,
 
     _octave_triplet,
 
-    _chord3(f3, c4, f4, _note*4),
-    _volume(10),
-    _root,_note*4+2,
-    _volume(15),
+    __chord3(f3, c4, f3, _qnote),
+    _root,_qnote,
 
-    _chord3(b3, e3, e4, _note*4),
-    _volume(10),
-    _root,_note*4+2,
-    _volume(16),
+    __chord3(b3, e3, e4, _qnote),
+    _root,_qnote,
 
-    _chord3(g3, d4, g4, _note*4),
-    _volume(10),
-    _root,_note*4+2,
-    _volume(17),
+    __chord3(g3, d4, g4, _qnote),
+    _root,_qnote,
 
     _octave_triplet,
 
-    _chord3(e3, c4, e4, _note*4),
-    _root,_note*4,
-    _chord3(d3, b3, d4, _note*2),
-    _chord(d3, d4, _note*2)+1,
-    _chord(_root, a3, _note*2),
-    _root,_note*2+1,
+    __chord3(e3, c4, e4, _qnote),
+    _root,_qnote,
+    __chord3(d3, b3, d4, _enote),
+    __chord(d3, d4, _enote),
+    __chord(_root, a3, _enote),
+    _root,_enote,
     _octave_triplet,
 
-    _chord3(e3, c4, e4, _note*4),
-    _root,_note*4,
-    _chord3(d3, b3, d4, _note*4),
-    _root,_note*4,
-    _chord3(c3, c4, d4, _note*4),
-    _chord3(d4, d3, _root, _note*4),
+    __chord3(e3, c4, e4, _qnote),
+    _root,_qnote,
+    __chord3(d3, b3, d4, _qnote),
+    _root,_qnote,
+    __chord3(c3, c4, d4, _qnote),
+    __chord3(d4, d3, _root, _qnote),
     _triplet,
     
-    _chord3(f3, c4, f4, _note*4),
-    _root,_note*4,
-    _chord3(e3, b3, e4, _note*2),
-    _chord(e3, e4, _note*2),
+    __chord3(f3, c4, f3, _qnote),
+    _root,_qnote,
+    __chord3(e3, b3, e4, _enote),
+    __chord(e3, e4, _enote),
     
-    _chord(_root,a3, _note*2),
-    _root,_note*2,
+    __chord(_root,a3, _enote),
+    _root,_enote,
     
     _octave_triplet,
     
-    _chord3(f3, c4, f4, _note*4),
-    _root,_note*4,
-    _chord3(e3, b3, e4, _note*4),
-    _root,_note*4,
-    _chord3(g3, d4, g4, _note*4),
+    __chord3(f3, c4, f3, _qnote),
+    _root,_qnote,
+    __chord3(e3, b3, e4, _qnote),
+    _root,_qnote,
+    __chord3(g3, d4, g4, _qnote),
     
     _triplet,
-    _chord3(e3, c4, e4, _note*2),
-    _chord(e3, c4, _note*2),
+    __chord3(e3, c4, e4, _enote),
+    __chord(e3, c4, _enote),
     
-    _chord(d3, d4, _note*4),
-    _chord3(d3, b3, e4, _note*2),
-    _chord(d3, d4, _note*2),
+    __chord(d3, d4, _qnote),
+    __chord3(d3, b3, e4, _enote),
+    __chord(d3, d4, _enote),
     
-    _chord3(_root,a3,d4, _note*4),
+    __chord3(_root,a3,d4, _qnote),
 
 _triplet,
-_chord3(e3, c4, e4, _note*4),
+__chord3(e3, c4, e4, _qnote),
 _low_note,
-_chord3(d3, b3, d4, _note*2),
-_chord(d3, d4, _note*2),
-_chord(_root, a3, _note*2),
-_root,_note*2,
+__chord3(d3, b3, d4, _enote),
+__chord(d3, d4, _enote),
+__chord(_root, a3, _enote),
+_root,_enote,
 _octave_triplet,
-_chord3(e3, c4, e4, _note*4),
+__chord3(e3, c4, e4, _qnote),
 _low_note,
-_chord3(d3, b3, d4, _note*4),
-_chord(_root, c4, _note*4),
-_chord3(c3, d4, f4, _note*4),
-_chord3(_root, d3, e4, _note*4),
-_chord(_root, e4, _note)+1,
+__chord3(d3, b3, d4, _qnote),
+__chord(_root, c4, _qnote),
+__chord3(c3, d4, f3, _qnote),
+__chord3(_root, d3, e4, _qnote),
+__chord(_root, e4, _qnote),
 
+__schord(c3, e4),
+__chord(d3, e4, _enote),
 0,
-
-
-_chord(c3, e4, _note)+1,
-_chord(d3, e4, _note*2),
 // key change
-_chord(c3, c4, _note*4),
-_chord(a2, a3, _note*4),
-_chord(b2, b3, _note*4),
-_chord(a2, a3, _note*8),
+__chord(c3, c4, _qnote),
+__chord(a2, a3, _qnote),
+__chord(b2, b3, _enote),
+__chord(a2, a3, _qnote*2),
 
-_chord(a2,a3,_note)+1,
-_chord(b2, b3, _note*2),
-_chord(c3, c4, _note*4),
-_chord(a2, a3, _note*4),
-_chord(b2, b3, _note*4),
-_chord(a2, a3, _note*4),
-_chord(d3, d4, _note*4),
-a2, _note_s(_note*4, 2),
-_chord(a2, a3, _note)+1,
-_chord(b2, b3, _note*2),
+__schord(a2,a3),
+__chord(b2, b3, _enote),
+__chord(c3, c4, _qnote),
+__chord(a2, a3, _qnote),
+__chord(b2, b3, _qnote),
+__chord(a2, a3, _qnote),
+__chord(d3, d4, _qnote),
+a2, _note_s(_qnote, 2),
+__schord(a2, a3),
+__chord(b2, b3, _enote),
 
 
-_chord(c3, c4, _note*4),
-_chord (b2, b3, _note*4),
-a3, _note_s(_note*2, 1),
-a2, _note_s(_note*2, 1),
-_chord(a2, a3, _note)+1,
-_chord(b2, b3, _note*2),
-_chord3(c3, c4, e4, _note*4),
+__chord(c3, c4, _qnote),
+__chord (b2, b3, _qnote),
+a3, _note_s(_enote, 2),
+a2, _note_s(_enote, 2),
+__schord(a2, a3),
+__chord(b2, b3, _enote),
+__chord3(c3, c4, e4, _qnote),
 0,
 
 
@@ -432,8 +454,8 @@ _chord3(c3, c4, e4, _note*4),
     // _chord3(d3, b3, d4, _note*2),
 
 
-    // f4,3,_root,1,-2,3,
-    // f4, 10,
+    // f3,3,_root,1,-2,3,
+    // f3, 10,
     // _chord3(e3, b3, e4, _note*4),
 
     // _chord(_root,d4,_note*4),
@@ -674,7 +696,8 @@ bool countdown_face_loop(movement_event_t event, void *context)
 
     return true;
 }
-
+// #include "watch_tcc.h"
+extern uint16_t _seq_position;
 void countdown_face_resign(void *context)
 {
     countdown_state_t *state = (countdown_state_t *)context;
@@ -684,6 +707,7 @@ void countdown_face_resign(void *context)
         state->mode = cd_reset;
         store_countdown(state);
     }
+    printf("seq position: %d\n", _seq_position);
     
 
     // return accelerometer to the state it was in before
