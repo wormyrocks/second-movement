@@ -30,6 +30,7 @@
 
 static bool buzzer_enabled = false;
 static uint32_t buzzer_period;
+static uint32_t gain_modifier;
 
 void cb_watch_buzzer_seq(void *userData);
 
@@ -118,9 +119,9 @@ void watch_enable_buzzer(void) {
 }
 
 void watch_set_buzzer_period_and_duty_cycle(uint32_t period, uint8_t duty_cycle) {
-    (void) duty_cycle;
     if (!buzzer_enabled) return;
     buzzer_period = period;
+    gain_modifier = duty_cycle;
 }
 
 void watch_disable_buzzer(void) {
@@ -155,8 +156,12 @@ void watch_set_buzzer_on(void) {
         }
 
         audioContext._oscillator.frequency.value = 1e6/$0;
-        audioContext._gain.gain.value = volumeGain;
-    }, buzzer_period);
+
+        // This is kind of a guess to avoid blowing out speakers;
+        // normalize 25 => 1.0, 100 => 2.5ish
+        gainModScaled = 3.3*Math.log10(($1 / 25.0)+1);
+        audioContext._gain.gain.value = volumeGain * gainModScaled;
+    }, buzzer_period, gain_modifier);
 }
 
 void watch_set_buzzer_off(void) {
