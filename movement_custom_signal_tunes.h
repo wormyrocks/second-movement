@@ -254,3 +254,111 @@ int8_t signal_tune[] = {
     0,
 };
 #endif // SIGNAL_TUNE_EVANGELION
+
+#ifdef SIGNAL_TUNE_NEVER_GONNA_GIVE_YOU_UP
+#define never_gonna              \
+    _root, _eighth_note,         \
+        _root + 2, _eighth_note, \
+        _root + 5, _eighth_note, \
+        _root + 2, _eighth_note
+
+#define give_you_up(X)                         \
+    _root + X + 9, -1 + _dotted_quarter_s,     \
+        _root + X + 9, -1 + _dotted_quarter_s, \
+        _root + X + 7, 2 + _dotted_quarter
+
+#define run_around_and                                   \
+    _root + 5, 1 + _dotted_quarter,                      \
+        _root + 7, 1 + _sixteenth_note + _eighth_note_s, \
+        _root + 4, 2 + _quarter_note,                    \
+        _root + 2, _quarter_note,                        \
+        _root + 2, _sixteenth_note,                      \
+        _root, _quarter_note
+
+#define desert_you                      \
+    _root + 7, _sixteenth_note,         \
+        _root + 7, 1 + _quarter_note_s, \
+        _root + 5, _sixteenth_note + 1 + _quarter_note_s + 3
+
+#define let_you_down give_you_up(-2)
+#define make_you_cry give_you_up(0)
+#define say_goodbye                        \
+    _root + 12, -1 + _dotted_quarter_s,    \
+        _root + 4, -1 + _dotted_quarter_s, \
+        _root + 5, 2 + _dotted_quarter
+
+#define tell_a_lie_and_hurt_you run_around_and, desert_you
+
+int8_t signal_tune[] = {
+    never_gonna,
+    give_you_up(0),
+    never_gonna,
+    let_you_down,
+    never_gonna,
+    run_around_and,
+    desert_you,
+    never_gonna,
+    make_you_cry,
+    never_gonna,
+    say_goodbye,
+    never_gonna,
+    tell_a_lie_and_hurt_you,
+    0};
+#endif // NEVER_GONNA_GIVE_YOU_UP
+
+#ifdef SIGNAL_TUNE_HAPPY_BIRTHDAY
+#define _root BUZZER_NOTE_D4
+
+#define happy(X) \
+    _root+X, 3+_eighth_note_s, \
+    _root+X, -3+_eighth_note,
+
+#define birthday(X,Y) \
+    _root+X, _quarter_note, \
+    _root+Y, _quarter_note,
+
+#define to_you(X,Y) \
+    _root+X, _quarter_note, \
+    _root+Y, _half_note,
+
+#define birthdayy \
+    _root+12, _quarter_note, \
+    _root+9, _quarter_note,
+
+#define dear_person \
+    _root+5, _quarter_note, \
+    _root+4, _quarter_note, \
+    _root+2, _quarter_note,
+
+#define and_many_more \
+    BUZZER_NOTE_REST, _half_note-1, \
+    _root, _half_note, \
+    birthday(2,0) \
+    _root+3, _eighth_note, \
+    _root+2, _eighth_note, \
+    _root+3, _eighth_note, \
+    _root+2, _eighth_note, \
+    _root+3, _eighth_note, \
+    _root+2, _eighth_note, \
+    _root+3, _eighth_note, \
+    _root+2, _eighth_note, \
+    _root+3, _quarter_note, \
+    _root+3, _quarter_note,
+
+int8_t signal_tune[] = {
+    happy(0)
+    birthday(2,0)
+    to_you(5, 4)
+    happy(0)
+    birthday(2,0)
+    to_you(7, 5)
+    happy(0)
+    birthdayy
+    dear_person
+    happy(10)
+    birthday(9,5)
+    to_you(7, 5)
+    and_many_more
+    0
+};
+#endif // HAPPY_BIRTHDAY
