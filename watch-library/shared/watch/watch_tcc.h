@@ -123,7 +123,8 @@ typedef enum {
     BUZZER_NOTE_A8,              ///< 7040.00 Hz
     BUZZER_NOTE_A8SHARP_B8FLAT,  ///< 7458.62 Hz
     BUZZER_NOTE_B8,              ///< 7902.13 Hz
-    BUZZER_NOTE_REST             ///< no sound
+    BUZZER_NOTE_REST,            ///< no sound
+    BUZZER_NOTE_SET_VOLUME,
 } watch_buzzer_note_t;
 
 /** @brief Returns true if either the buzzer or the LED driver is enabled.

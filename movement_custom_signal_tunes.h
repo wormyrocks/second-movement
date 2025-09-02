@@ -362,3 +362,236 @@ int8_t signal_tune[] = {
     0
 };
 #endif // HAPPY_BIRTHDAY
+
+#ifdef SIGNAL_TUNE_SCHISM
+
+#define _root BUZZER_NOTE_A4
+
+#define a1 _root - 5
+#define a2 _root + 7
+#define b2 _root + 9
+#define c3 _root + 10
+#define d3 _root + 12
+#define f3 _root + 15
+#define e3 _root + 14
+#define g3 _root + 17
+#define a3 _root + 19
+
+#define c4 _root + 22
+#define d4 _root + 24
+#define b3 _root + 21
+
+#define f4 _root + 27
+#define e4 _root + 26
+#define d4 _root + 24
+#define g4 _root + 29
+
+#define _note 8
+#define _chord(X,Y,R) X, 2, Y, 2, -2, (((R))/5-1)
+#define _chord3(X,Y,Z,R) X, 1, Y, 1, Z, 1, -3, (((R))/6-1)
+#define _beat BUZZER_NOTE_REST,(_note/6)
+#define _rest(X) BUZZER_NOTE_REST,X
+#define _volume(X) BUZZER_NOTE_SET_VOLUME,X
+#define _note_s(N,B) ((N)-(B)),_rest(B)
+
+#define _low_note _root, _note_s(4*_note,2)
+#define _triplet _root, _note,c3, _note,d3, 2*_note
+#define _octave_triplet _chord(_root, d4, _note)+1, \
+    _chord(d4, c3, _note)+1, \
+    d3,2*_note
+
+int8_t signal_tune[] = {
+    BUZZER_NOTE_REST, 4,
+
+    _triplet,
+
+    f3, _note_s(4*_note,2),
+    _low_note,
+
+    e3, _note_s(4*_note,2),
+    _low_note,
+
+    _triplet,
+
+    f3, _note_s(4*_note,2),
+    _root, _note_s(4*_note,2),
+    e3, _note_s(4*_note,2),
+    _root, _note_s(4*_note,2),
+    g3, _note_s(4*_note,2),
+    _root, _note_s(4*_note,2),
+    _volume(7),
+
+    -27, 1,
+    _volume(10),
+
+    _triplet,
+
+    _chord(f3, c4, 4*_note),
+    _root,4*_note,
+
+    _chord(e3, b3, _note*4),
+    _chord(_root, a3, _note*4)-1,
+    _rest(1),
+
+    _triplet,
+
+    _chord(f3, c4, _note*4),
+    _root,4*_note,
+
+    _chord(e3, b3, _note*4),
+    _root,4*_note,
+    _chord(_root,a3,_note*4),
+
+    _chord(g3, d4, _note*4),
+    _root,4*_note,
+
+    _volume(12),
+
+    _triplet,
+
+    _chord3(f3, c4, f4, _note*4),
+    _chord(_root, f4, _note*4),
+    _volume(13),
+
+    _chord3(e3, b3, e4, _note*4),
+    _chord3(_root, a3, d4, _note*2),
+    _root, _note*2+2,
+    _volume(14),
+
+    _octave_triplet,
+
+    _chord3(f3, c4, f4, _note*4),
+    _volume(10),
+    _root,_note*4+2,
+    _volume(15),
+
+    _chord3(b3, e3, e4, _note*4),
+    _volume(10),
+    _root,_note*4+2,
+    _volume(16),
+
+    _chord3(g3, d4, g4, _note*4),
+    _volume(10),
+    _root,_note*4+2,
+    _volume(17),
+
+    _octave_triplet,
+
+    _chord3(e3, c4, e4, _note*4),
+    _root,_note*4,
+    _chord3(d3, b3, d4, _note*2),
+    _chord(d3, d4, _note*2)+1,
+    _chord(_root, a3, _note*2),
+    _root,_note*2+1,
+    _octave_triplet,
+
+    _chord3(e3, c4, e4, _note*4),
+    _root,_note*4,
+    _chord3(d3, b3, d4, _note*4),
+    _root,_note*4,
+    _chord3(c3, c4, d4, _note*4),
+    _chord3(d4, d3, _root, _note*4),
+    _triplet,
+    
+    _chord3(f3, c4, f4, _note*4),
+    _root,_note*4,
+    _chord3(e3, b3, e4, _note*2),
+    _chord(e3, e4, _note*2),
+    
+    _chord(_root,a3, _note*2),
+    _root,_note*2,
+    
+    _octave_triplet,
+    
+    _chord3(f3, c4, f4, _note*4),
+    _root,_note*4,
+    _chord3(e3, b3, e4, _note*4),
+    _root,_note*4,
+    _chord3(g3, d4, g4, _note*4),
+    
+    _triplet,
+    _chord3(e3, c4, e4, _note*2),
+    _chord(e3, c4, _note*2),
+    
+    _chord(d3, d4, _note*4),
+    _chord3(d3, b3, e4, _note*2),
+    _chord(d3, d4, _note*2),
+    
+    _chord3(_root,a3,d4, _note*4),
+
+_triplet,
+_chord3(e3, c4, e4, _note*4),
+_low_note,
+_chord3(d3, b3, d4, _note*2),
+_chord(d3, d4, _note*2),
+_chord(_root, a3, _note*2),
+_root,_note*2,
+_octave_triplet,
+_chord3(e3, c4, e4, _note*4),
+_low_note,
+_chord3(d3, b3, d4, _note*4),
+_chord(_root, c4, _note*4),
+_chord3(c3, d4, f4, _note*4),
+_chord3(_root, d3, e4, _note*4),
+_chord(_root, e4, _note)+1,
+
+0,
+
+
+_chord(c3, e4, _note)+1,
+_chord(d3, e4, _note*2),
+// key change
+_chord(c3, c4, _note*4),
+_chord(a2, a3, _note*4),
+_chord(b2, b3, _note*4),
+_chord(a2, a3, _note*8),
+
+_chord(a2,a3,_note)+1,
+_chord(b2, b3, _note*2),
+_chord(c3, c4, _note*4),
+_chord(a2, a3, _note*4),
+_chord(b2, b3, _note*4),
+_chord(a2, a3, _note*4),
+_chord(d3, d4, _note*4),
+a2, _note_s(_note*4, 2),
+_chord(a2, a3, _note)+1,
+_chord(b2, b3, _note*2),
+
+
+_chord(c3, c4, _note*4),
+_chord (b2, b3, _note*4),
+a3, _note_s(_note*2, 1),
+a2, _note_s(_note*2, 1),
+_chord(a2, a3, _note)+1,
+_chord(b2, b3, _note*2),
+_chord3(c3, c4, e4, _note*4),
+0,
+
+
+
+
+
+//     _chord(_root, d4, _note),
+//     _chord(c3, d4, _note),
+//     _chord(d3, d4, _note*2),
+//     _chord(d3, d4, _note*2),
+//     _chord(_root, a3, _note*4),
+// _triplet,
+
+    // _low_note,
+    // _chord3(d3, b3, d4, _note*2),
+
+
+    // f4,3,_root,1,-2,3,
+    // f4, 10,
+    // _chord3(e3, b3, e4, _note*4),
+
+    // _chord(_root,d4,_note*4),
+    // _chord(c3,d4,2),
+    // d3,2*_note,
+
+
+
+    0,
+};
+#endif

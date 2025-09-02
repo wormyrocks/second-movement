@@ -36,6 +36,7 @@ void cb_watch_buzzer_seq(void *userData);
 
 static uint16_t _seq_position;
 static int8_t _tone_ticks, _repeat_counter;
+static int8_t _sequence_volume = 25;
 static long _em_interval_id = 0;
 static int8_t *_sequence;
 static void (*_cb_finished)(void);
@@ -58,13 +59,14 @@ void watch_buzzer_play_sequence(int8_t *note_sequence, void (*callback_on_end)(v
     // prepare buzzer
     watch_enable_buzzer();
     // initiate 64 hz callback
-    _em_interval_id = emscripten_set_interval(cb_watch_buzzer_seq, (double)(1000/64), (void *)NULL);
+    _em_interval_id = emscripten_set_interval(cb_watch_buzzer_seq, (double)(1000/128), (void *)NULL);
 }
 
 void cb_watch_buzzer_seq(void *userData) {
     // callback for reading the note sequence
     (void) userData;
     if (_tone_ticks == 0) {
+start:
         if (_sequence[_seq_position] < 0 && _sequence[_seq_position + 1]) {
             // repeat indicator found
             if (_repeat_counter == -1) {
@@ -82,6 +84,14 @@ void cb_watch_buzzer_seq(void *userData) {
                 _seq_position += 2;
                 _repeat_counter = -1;
             }
+            goto start;
+        }
+        // volume can modify a repeat counter and repeat counter can modify volume,
+        // so have to use a goto
+        if (_sequence[_seq_position] == BUZZER_NOTE_SET_VOLUME && _sequence[_seq_position + 1]) {
+            _sequence_volume = _sequence[_seq_position + 1];
+            _seq_position += 2;
+            goto start;
         }
         if (_sequence[_seq_position] && _sequence[_seq_position + 1]) {
             // read note
@@ -89,7 +99,7 @@ void cb_watch_buzzer_seq(void *userData) {
             if (note == BUZZER_NOTE_REST) {
                 watch_set_buzzer_off();
             } else {
-                watch_set_buzzer_period_and_duty_cycle(NotePeriods[note], 25);
+                watch_set_buzzer_period_and_duty_cycle(NotePeriods[note], _sequence_volume);
                 watch_set_buzzer_on();
             }
             // set duration ticks and move to next tone
@@ -97,6 +107,7 @@ void cb_watch_buzzer_seq(void *userData) {
             _seq_position += 2;
         } else {
             // end the sequence
+            _sequence_volume = 25;
             watch_buzzer_abort_sequence();
             if (_cb_finished) _cb_finished();
         }

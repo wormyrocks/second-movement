@@ -32,6 +32,7 @@ void cb_watch_buzzer_seq(void);
 
 static uint16_t _seq_position;
 static int8_t _tone_ticks, _repeat_counter;
+static int8_t _sequence_volume = 25;
 static bool _callback_running = false;
 static int8_t *_sequence;
 static void (*_cb_finished)(void);
@@ -60,7 +61,7 @@ static void _tc0_initialize() {
     tc_init(0, GENERIC_CLOCK_3, TC_PRESCALER_DIV2);
     tc_set_counter_mode(0, TC_COUNTER_MODE_8BIT);
     tc_set_run_in_standby(0, true);
-    tc_count8_set_period(0, 7); // 1024 Hz divided by 2 divided by 8 equals 64 Hz
+    tc_count8_set_period(0, 3); // 1024 Hz divided by 2 divided by 8 equals 64 Hz
     /// FIXME: #SecondMovement, we need a gossamer wrapper for interrupts.
     TC0->COUNT8.INTENSET.bit.OVF = 1;
     NVIC_ClearPendingIRQ(TC0_IRQn);
@@ -88,6 +89,7 @@ void watch_buzzer_play_sequence(int8_t *note_sequence, void (*callback_on_end)(v
 void cb_watch_buzzer_seq(void) {
     // callback for reading the note sequence
     if (_tone_ticks == 0) {
+start:
         if (_sequence[_seq_position] < 0 && _sequence[_seq_position + 1]) {
             // repeat indicator found
             if (_repeat_counter == -1) {
@@ -105,12 +107,18 @@ void cb_watch_buzzer_seq(void) {
                 _seq_position += 2;
                 _repeat_counter = -1;
             }
+            goto start;
+        }
+        if (_sequence[_seq_position] == BUZZER_NOTE_SET_VOLUME) {
+            _sequence_volume = _sequence[_seq_position + 1];
+            _seq_position += 2;
+            goto start;
         }
         if (_sequence[_seq_position] && _sequence[_seq_position + 1]) {
             // read note
             watch_buzzer_note_t note = _sequence[_seq_position];
             if (note != BUZZER_NOTE_REST) {
-                watch_set_buzzer_period_and_duty_cycle(NotePeriods[note], 25);
+                watch_set_buzzer_period_and_duty_cycle(NotePeriods[note], _sequence_volume);
                 watch_set_buzzer_on();
             } else watch_set_buzzer_off();
             // set duration ticks and move to next tone
@@ -118,6 +126,7 @@ void cb_watch_buzzer_seq(void) {
             _seq_position += 2;
         } else {
             // end the sequence
+            _sequence_volume = 25;
             watch_buzzer_abort_sequence();
             if (_cb_finished) _cb_finished();
         }

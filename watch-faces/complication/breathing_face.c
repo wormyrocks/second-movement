@@ -106,7 +106,7 @@ bool breathing_face_loop(movement_event_t event, void *context) {
 
             switch (state->current_stage) {
               case 0: {
-                watch_display_text_with_fallback(WATCH_POSITION_BOTTOM, "Breath", "Breath");
+                watch_display_text_with_fallback(WATCH_POSITION_BOTTOM, "1reath", "1reath");
                 if (state->indication_mode != 2)
                   breathe_notify(state, IN_NOTES, IN_DUR, 3, false);
                 break;
