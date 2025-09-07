@@ -1,0 +1,42 @@
+#define bassline_1                \
+    __triplet(_root, c3, d3),     \
+        f3, _qnote,               \
+        _root, _qnote,            \
+        e3, _qnote,               \
+        __triplet(_root, c3, d3), \
+        f3, _qnote,               \
+        _root, _qnote,            \
+        e3, _qnote,               \
+        _root, _qnote,            \
+        g3, _qnote
+
+#define bassline_2                \
+    __triplet(_root, c3, d3),     \
+        e3, _qnote,               \
+        _root, _qnote,            \
+        d3, _qnote,               \
+        __triplet(_root, c3, d3), \
+        e3, _qnote,               \
+        _root, _qnote,            \
+        d3, _qnote,               \
+        _root, _qnote,            \
+        f3, _qnote
+
+#define bassline_1a               \
+    _triplet_2_,                  \
+        __chord(f3, as3, _qnote), \
+        _root, _qnote,            \
+        __chord(a3, e3, _qnote),  \
+        _root, _qnote_s,          \
+        __schord(_root, g3),      \
+        __schord(_root, c3),      \
+        d3, _enote,               \
+        __chord(f3, as3, _qnote), \
+        _root, _qnote,            \
+        __chord(e3, a3, _qnote),  \
+        _root, _qnote,            \
+        __chord(g3, c4, _qnote),  \
+        _root, _qnote
+
+bassline_1,
+    bassline_1a,

@@ -215,18 +215,23 @@ static void settings_increment(countdown_state_t *state)
 }
 
 #define _root BUZZER_NOTE_G4
-#define _root BUZZER_NOTE_D3
+#define _root BUZZER_NOTE_D4
 
 #define d2 _root
+#define e2 _root + 2
+#define f2 _root + 3
+#define g2 _root + 5
 #define a1 _root - 5
 #define a2 _root + 7
 #define b2 _root + 9
 #define c3 _root + 10
+#define cs3 _root + 11
 #define d3 _root + 12
 #define f3 _root + 15
 #define e3 _root + 14
 #define g3 _root + 17
 #define a3 _root + 19
+#define as3 _root + 20
 
 #define c4 _root + 22
 #define d4 _root + 24
@@ -236,223 +241,174 @@ static void settings_increment(countdown_state_t *state)
 #define e4 _root + 26
 #define d4 _root + 24
 #define g4 _root + 29
+#define a4 _root + 31
+#define as4 _root + 32
 
 #define _note 6
-#define _rest(X) BUZZER_NOTE_REST,X
-#define _volume(X) BUZZER_NOTE_SET_VOLUME,X
-#define _note_s(N,B) ((N)-(B)),_rest(B)
+#define _rest(X) BUZZER_NOTE_REST, X
+#define _volume(X) BUZZER_NOTE_SET_VOLUME, X
+#define _note_s(N, B) ((N) - (B)), _rest(B)
 
-#define _qnote (_note*4)
-#define _dqnote (_note*6)
-#define _enote (_note*2)
-#define _qnote_s (_note*4)-1,_rest(1)
-#define _enote_s (_note*2)-1,_rest(1)
+#define _qnote (_note * 4)
+#define _dqnote (_note * 6)
+#define _enote (_note * 2)
+#define _qnote_s (_note * 4) - 2, _rest(2)
+#define _enote_s (_note * 2) - 1, _rest(1)
 
 #define _low_note _root, _qnote
-#define _low_note_s _root, _qnote-2,_rest(2),
+#define _low_note_s _root, _qnote - 2, _rest(2),
 
-#define __schord(X,Y) X,2,Y,2
-#define __schord3(X,Y,Z) X,1,Y,1,Z,1
-#define __chord(X,Y,R) X, 2, Y, 2, -2, (R/4-1)
-#define __chord3(X,Y,Z,R) X, 1, Y, 1, Z, 1, -3, (R/3-1)
+#define __schord(X, Y) X, 2, Y, 2
+#define __schord3(X, Y, Z) X, 1, Y, 1, Z, 1
+#define __chord(X, Y, R) X, 2, Y, 2, -2, (((R) / 4) - 1)
+#define __chord3(X, Y, Z, R) X, 1, Y, 1, Z, 1, -3, (((R) / 3) - 1)
 
 #define _tempo _volume(69)
-#define _triplet _root, (_note), c3, (_note), d3, _enote, _tempo
-#define _triplet_2 _root, (_note-1),_rest(1), _root, (_note-1),_rest(1), _root, (_enote-1), _rest(1),_tempo
+#define __triplet(X, Y, Z) (X), _qnote_s, (X), (_note), (Y), (_note), (Z), _enote, _tempo
+#define _triplet _root, _qnote_s, _root, (_note), c3, (_note), d3, _enote, _tempo
+#define _triplet_2_ _root, _qnote_s, _root, _note, __schord(c3, f3), __chord(d3, g3, _enote), _tempo
+#define _triplet_3 a2, _qnote_s, g3, (_note), g3, (_note), a3, _enote, _tempo
+
+#define _triplet_2 _root, (_note - 1), _rest(1), _root, (_note - 1), _rest(1), _root, (_enote - 1), _rest(1), _tempo
 #define _octave_triplet __schord(_root, d4), \
-    __schord(d4, c3), \
-    d3,_enote,_tempo
+                        __schord(d4, c3),    \
+                        d3, _enote, _tempo
+#define _octave_pingpong(X, Y, L) \
+    __chord(X, Y, (L) / 2),       \
+        __chord(Y, X + 12, (L) / 2)
 
-// _root,1,
-// _root,1,
-// _root,1,
-// _root,1,
-// _root,1,
-// _root,1,
-// _root,1,
-// _root,1,
-// -8, 3,
-// _volume(69),
-int8_t happy_birthday[] = {
+static const int8_t happy_birthday[] = {
+#include "guitar_intro.chunk"
+#include "bassline_intro.chunk"
+#include "solo_vox.chunk"
+#include "bridge.chunk"
+#include "keychange.chunk"
+#include "breakdown.chunk"
+    // #include "bassline_intro.chunk"
 
-//     _low_note,
-// _volume(69),
-//     __chord(c3,a3,_qnote),
-// _volume(69),
-// __chord3(d4,c3,a3,_qnote),
-// _volume(69),
-//     _triplet,
-// _volume(69),
-// _octave_triplet,
-// _volume(69),
-// 0,
+    // #include "bassline_intro.chunk"
+    // #include "bassandguitar.chunk"
+    // #include "bassline_intro.chunk"
+    // #include "bassandguitar.chunk"
 
-_rest(12),
-    _triplet,
+    // _triplet,
 
-    f3, _qnote,
-    _root,_qnote,
+    // __chord3(f3, c4, f3, _qnote),
+    // __chord(_root, f3, _qnote),
 
-    e3, _dqnote,
-    _rest(_enote),
+    // __chord3(e3, b3, e4, _qnote),
+    // __chord3(_root, a3, d4, _enote),
+    // _root, _enote,
 
-    _triplet,
+    // _octave_triplet,
 
-    f3, _qnote,
-    _root, _qnote,
-    e3, _qnote,
-    _root, _qnote,
-    g3, _qnote,
-    _root, _qnote_s,
+    // __chord3(f3, c4, f3, _qnote),
+    // _root,_qnote,
 
-    -19, 3,
+    // __chord3(b3, e3, e4, _qnote),
+    // _root,_qnote,
 
-    _triplet_2,
+    // __chord3(g3, d4, g4, _qnote),
+    // _root,_qnote,
 
-    __chord(f3, c4, _qnote), // I
-    _root,_qnote,
+    // _octave_triplet,
 
-    __chord(b3, e3, _qnote), // know
-    __chord(a3, d2, _enote), // the
-    d2, _enote_s,
+    // __chord3(e3, c4, e4, _qnote),
+    // _root,_qnote,
+    // __chord3(d3, b3, d4, _enote),
+    // __chord(d3, d4, _enote),
+    // __chord(_root, a3, _enote),
+    // _root,_enote,
+    // _octave_triplet,
 
-    _triplet,
+    //     __chord3(e3, c4, e4, _qnote),
+    //     _root,_qnote,
+    //     __chord3(d3, b3, d4, _qnote),
+    //     _root,_qnote,
+    //     __chord3(c3, c4, d4, _qnote),
+    //     __chord3(d4, d3, _root, _qnote),
+    //     _triplet,
 
-    __chord(f3, c4, _qnote), // Pie
-    _root,_qnote,
+    //     __chord3(f3, c4, f3, _qnote),
+    //     _root,_qnote,
+    //     __chord3(e3, b3, e4, _enote),
+    //     __chord(e3, e4, _enote),
 
-    __chord(e3, b3, _qnote), // Ces
-    _root,_qnote,
+    //     __chord(_root,a3, _enote),
+    //     _root,_enote,
 
-    // __chord(_root,a3,_qnote),
+    //     _octave_triplet,
 
-    __chord(g3, d4, _qnote), // Fit
-    _root,_qnote,
+    //     __chord3(f3, c4, f3, _qnote),
+    //     _root,_qnote,
+    //     __chord3(e3, b3, e4, _qnote),
+    //     _root,_qnote,
+    //     __chord3(g3, d4, g4, _qnote),
 
-    _triplet,
+    //     _triplet,
+    //     __chord3(e3, c4, e4, _enote),
+    //     __chord(e3, c4, _enote),
 
-    __chord3(f3, c4, f3, _qnote),
-    __chord(_root, f3, _qnote),
+    //     __chord(d3, d4, _qnote),
+    //     __chord3(d3, b3, e4, _enote),
+    //     __chord(d3, d4, _enote),
 
-    __chord3(e3, b3, e4, _qnote),
-    __chord3(_root, a3, d4, _enote),
-    _root, _enote,
+    //     __chord3(_root,a3,d4, _qnote),
 
-    _octave_triplet,
+    // _triplet,
+    // __chord3(e3, c4, e4, _qnote),
+    // _low_note,
+    // __chord3(d3, b3, d4, _enote),
+    // __chord(d3, d4, _enote),
+    // __chord(_root, a3, _enote),
+    // _root,_enote,
+    // _octave_triplet,
+    // __chord3(e3, c4, e4, _qnote),
+    // _low_note,
+    // __chord3(d3, b3, d4, _qnote),
+    // __chord(_root, c4, _qnote),
+    // __chord3(c3, d4, f3, _qnote),
+    // __chord3(_root, d3, e4, _qnote),
+    // __chord(_root, e4, _qnote),
 
-    __chord3(f3, c4, f3, _qnote),
-    _root,_qnote,
+    // __schord(c3, e4),
+    // __chord(d3, e4, _enote),
+    // 0,
+    // // key change
+    // __chord(c3, c4, _qnote),
+    // __chord(a2, a3, _qnote),
+    // __chord(b2, b3, _enote),
+    // __chord(a2, a3, _qnote*2),
 
-    __chord3(b3, e3, e4, _qnote),
-    _root,_qnote,
+    // __schord(a2,a3),
+    // __chord(b2, b3, _enote),
+    // __chord(c3, c4, _qnote),
+    // __chord(a2, a3, _qnote),
+    // __chord(b2, b3, _qnote),
+    // __chord(a2, a3, _qnote),
+    // __chord(d3, d4, _qnote),
+    // a2, _note_s(_qnote, 2),
+    // __schord(a2, a3),
+    // __chord(b2, b3, _enote),
 
-    __chord3(g3, d4, g4, _qnote),
-    _root,_qnote,
+    // __chord(c3, c4, _qnote),
+    // __chord (b2, b3, _qnote),
+    // a3, _note_s(_enote, 2),
+    // a2, _note_s(_enote, 2),
+    // __schord(a2, a3),
+    // __chord(b2, b3, _enote),
+    // __chord3(c3, c4, e4, _qnote),
+    // 0,
 
-    _octave_triplet,
-
-    __chord3(e3, c4, e4, _qnote),
-    _root,_qnote,
-    __chord3(d3, b3, d4, _enote),
-    __chord(d3, d4, _enote),
-    __chord(_root, a3, _enote),
-    _root,_enote,
-    _octave_triplet,
-
-    __chord3(e3, c4, e4, _qnote),
-    _root,_qnote,
-    __chord3(d3, b3, d4, _qnote),
-    _root,_qnote,
-    __chord3(c3, c4, d4, _qnote),
-    __chord3(d4, d3, _root, _qnote),
-    _triplet,
-    
-    __chord3(f3, c4, f3, _qnote),
-    _root,_qnote,
-    __chord3(e3, b3, e4, _enote),
-    __chord(e3, e4, _enote),
-    
-    __chord(_root,a3, _enote),
-    _root,_enote,
-    
-    _octave_triplet,
-    
-    __chord3(f3, c4, f3, _qnote),
-    _root,_qnote,
-    __chord3(e3, b3, e4, _qnote),
-    _root,_qnote,
-    __chord3(g3, d4, g4, _qnote),
-    
-    _triplet,
-    __chord3(e3, c4, e4, _enote),
-    __chord(e3, c4, _enote),
-    
-    __chord(d3, d4, _qnote),
-    __chord3(d3, b3, e4, _enote),
-    __chord(d3, d4, _enote),
-    
-    __chord3(_root,a3,d4, _qnote),
-
-_triplet,
-__chord3(e3, c4, e4, _qnote),
-_low_note,
-__chord3(d3, b3, d4, _enote),
-__chord(d3, d4, _enote),
-__chord(_root, a3, _enote),
-_root,_enote,
-_octave_triplet,
-__chord3(e3, c4, e4, _qnote),
-_low_note,
-__chord3(d3, b3, d4, _qnote),
-__chord(_root, c4, _qnote),
-__chord3(c3, d4, f3, _qnote),
-__chord3(_root, d3, e4, _qnote),
-__chord(_root, e4, _qnote),
-
-__schord(c3, e4),
-__chord(d3, e4, _enote),
-0,
-// key change
-__chord(c3, c4, _qnote),
-__chord(a2, a3, _qnote),
-__chord(b2, b3, _enote),
-__chord(a2, a3, _qnote*2),
-
-__schord(a2,a3),
-__chord(b2, b3, _enote),
-__chord(c3, c4, _qnote),
-__chord(a2, a3, _qnote),
-__chord(b2, b3, _qnote),
-__chord(a2, a3, _qnote),
-__chord(d3, d4, _qnote),
-a2, _note_s(_qnote, 2),
-__schord(a2, a3),
-__chord(b2, b3, _enote),
-
-
-__chord(c3, c4, _qnote),
-__chord (b2, b3, _qnote),
-a3, _note_s(_enote, 2),
-a2, _note_s(_enote, 2),
-__schord(a2, a3),
-__chord(b2, b3, _enote),
-__chord3(c3, c4, e4, _qnote),
-0,
-
-
-
-
-
-//     _chord(_root, d4, _note),
-//     _chord(c3, d4, _note),
-//     _chord(d3, d4, _note*2),
-//     _chord(d3, d4, _note*2),
-//     _chord(_root, a3, _note*4),
-// _triplet,
+    //     _chord(_root, d4, _note),
+    //     _chord(c3, d4, _note),
+    //     _chord(d3, d4, _note*2),
+    //     _chord(d3, d4, _note*2),
+    //     _chord(_root, a3, _note*4),
+    // _triplet,
 
     // _low_note,
     // _chord3(d3, b3, d4, _note*2),
-
 
     // f3,3,_root,1,-2,3,
     // f3, 10,
@@ -461,8 +417,6 @@ __chord3(c3, c4, e4, _qnote),
     // _chord(_root,d4,_note*4),
     // _chord(c3,d4,2),
     // d3,2*_note,
-
-
 
     0,
 };
@@ -516,7 +470,7 @@ bool countdown_face_loop(movement_event_t event, void *context)
             watch_stop_sleep_animation();
         watch_display_text_with_fallback(WATCH_POSITION_TOP, "TIMER", "CD");
         draw(state, event.subsecond);
-    watch_buzzer_play_sequence(happy_birthday, NULL);
+        watch_buzzer_play_sequence(happy_birthday, NULL);
         break;
     case EVENT_TICK:
         if (quick_ticks_running)
@@ -527,7 +481,7 @@ bool countdown_face_loop(movement_event_t event, void *context)
                 abort_quick_ticks(state);
         }
 
-        state->seconds=(state->seconds+1);
+        state->seconds = (state->seconds + 1);
 
         if (state->tap_detection_ticks > 0)
         {
@@ -708,7 +662,6 @@ void countdown_face_resign(void *context)
         store_countdown(state);
     }
     printf("seq position: %d\n", _seq_position);
-    
 
     // return accelerometer to the state it was in before
     abort_tap_detection(state);

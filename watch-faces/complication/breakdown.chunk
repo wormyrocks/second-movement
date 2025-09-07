@@ -1,0 +1,58 @@
+
+e4, _qnote,
+_rest(2*_qnote),
+g4, _qnote,
+_rest(2*_qnote),
+e4, _qnote,
+_rest(2*_qnote),
+a4, _qnote,
+_rest(2*_qnote),
+d4, _qnote,
+_rest(2*_qnote),
+e4, _qnote,
+_rest(2*_qnote),
+c4, _qnote,
+_rest(2*_qnote),
+d4, _qnote,
+_rest(_qnote),
+c4, _qnote,
+_rest(_qnote),
+d4, _qnote,
+_rest(_qnote),
+
+__chord(a2, e4, _qnote),
+__chord(e4, a3, _qnote),
+__chord(a3, a2, _qnote)-1,_rest(4),
+
+__chord(a2, g4, _qnote),
+__chord(g4, a3, _qnote),
+__chord(a3, a2, _qnote)-1,_rest(4),
+
+
+__chord(a2, e4, _qnote),
+__chord(e4, a3, _qnote),
+__chord(a3, a2, _qnote)-1,_rest(4),
+
+__chord(a2, a4, _qnote),
+__chord(a4, a3, _qnote),
+__chord(a3, a2, _qnote)-1,_rest(4),
+
+__chord(a2, d4, _qnote),
+__chord(d4, a3, _qnote),
+__chord(a3, a2, _qnote)-1,_rest(4),
+
+__chord(a2, e4, _qnote),
+__chord(e4, a3, _qnote),
+__chord(a3, a2, _qnote)-1,_rest(4),
+
+__chord(a2, c4, _qnote),
+__chord(c4, a3, _qnote),
+
+__chord(a2, d4, _qnote),
+__chord(d4, a3, _qnote),
+
+__chord(a2, c4, _qnote),
+__chord(a3, c4, _qnote),
+
+__chord(a2, d4, _qnote),
+__chord(a3, d4, _qnote),

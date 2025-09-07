@@ -1,0 +1,58 @@
+// I know the pieces fit
+f3,2*_qnote,
+e3,2*_qnote,
+d3,_qnote,
+
+f3, _qnote+6,
+_rest(_qnote-6),
+e3, _qnote,
+_rest(_qnote),
+g3, _qnote*1.5,
+_rest(_qnote*.5),
+
+// Cause i watched them fall away
+d3,_qnote,
+e3, 2*_qnote,
+d3,_qnote,
+a2,_qnote,
+e3, _qnote,
+_rest(_qnote),
+d3,_qnote,
+_rest(_qnote), 
+cs3, _qnote,
+d3, _dqnote-6,
+
+// Mildewed and smoldering
+__chord(f3,c4,2*_qnote),
+__chord(e3,b3,2*_qnote),
+__chord(d3,a3,_qnote),
+
+__chord(f3,c4, _qnote+6),
+_rest(_qnote-6),
+__chord(e3,b3,_qnote),
+_rest(_qnote),
+__chord(g3,d4,_qnote*1.5),
+_rest(_qnote*0.5),
+
+// Fundamental differing
+__chord(e3, b3,_qnote),
+__chord(d3, a3,_qnote),
+__chord(e3,b3,_qnote),
+__chord(d3,a3,_qnote),
+_rest(_qnote),
+
+// Differing
+__chord(b3,e3,_qnote),
+_rest(_qnote),
+__chord(d3, a3,_dqnote-6),
+__chord(f3, c4,_qnote),
+
+
+//  Pure intention
+_octave_pingpong(d2, f3, _qnote*2),
+_octave_pingpong(d2, e3, _qnote*2),
+_octave_pingpong(d2, d3, _qnote),
+
+_octave_pingpong(d2, f3, _qnote*2),
+_octave_pingpong(d2, e3, _qnote*2),
+_octave_pingpong(d2, g3, _qnote),
