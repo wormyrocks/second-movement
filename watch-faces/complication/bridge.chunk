@@ -1,72 +1,103 @@
-#define dfgf \
-d2, _qnote, \
-_rest(_qnote),\
-f2, _qnote,\
-_rest(_qnote),\
-g2, _qnote,\
-f2,_qnote, \
-_rest(_qnote), \
-f2,_qnote, \
-g2,_qnote_s, \
-g2,_qnote,\
-_root,_note,\
-f2,_note,\
-g2,_enote,\
-c3,_qnote
+#define dfgf           \
+    d2, _qnote,        \
+        _rest(_qnote), \
+        f2, _qnote,    \
+        _rest(_qnote), \
+        g2, _qnote,    \
+        f2, _qnote,    \
+        _rest(_qnote), \
+        f2, _qnote,    \
+        g2, _qnote_s,  \
+        g2, _qnote,    \
+        _root, _note,  \
+        f2, _note,     \
+        g2, _enote,    \
+        c3, _qnote
 
-#define dfgf2 \
-__chord(d2,a2, _qnote), \
-_rest(_qnote),\
-__chord(f2,c3, _qnote),\
-_rest(_qnote),\
-__chord(g2,d3, _qnote),\
-__chord(f2,c3,_qnote), \
-_rest(_qnote), \
-__chord(f2,c3,_qnote), \
-__chord(g2,d3,_qnote), \
-__chord(d3,g2,_qnote),\
-_root,_note,\
-f2,_note,\
-g2,_enote,\
-c3,_qnote
+#define dfgf2                    \
+    __chord(d2, a2, _qnote),     \
+        _rest(_qnote),           \
+        __chord(f2, c3, _qnote), \
+        _rest(_qnote),           \
+        __chord(g2, d3, _qnote), \
+        __chord(f2, c3, _qnote), \
+        _rest(_qnote),           \
+        __chord(f2, c3, _qnote), \
+        __chord(g2, d3, _qnote), \
+        __chord(d3, g2, _qnote), \
+        _root, _note,            \
+        f2, _note,               \
+        g2, _enote,              \
+        c3, _qnote
 
-#define dfgf3 \
-__chord(d2,a2, _qnote), \
-_rest(_qnote),\
-__chord3(c3,f3,g4, _qnote),\
-_rest(_qnote),\
-__chord3(d3,g3,g4, _qnote),\
-__chord3(c3,f3,g4,_qnote), \
-_rest(_qnote), \
-__chord3(c3,f3,a4,_qnote), \
-g3, _qnote, \
-__chord3(d3,g3,d4,_qnote),\
-_root,_note,\
-f2,_note,\
-g2,_enote,\
-__chord(c3,f4,_qnote)
+#define dfgf3                         \
+    __chord(d2, a2, _qnote),          \
+        _rest(_qnote),                \
+        __chord3(c3, f3, g4, _qnote), \
+        _rest(_qnote),                \
+        __chord3(d3, g3, g4, _qnote), \
+        __chord3(c3, f3, g4, _qnote), \
+        _rest(_qnote),                \
+        __chord3(c3, f3, a4, _qnote), \
+        g3, _qnote,                   \
+        __chord3(d3, g3, d4, _qnote), \
+        _root, _note,                 \
+        f2, _note,                    \
+        g2, _enote,                   \
+        __chord(c3, f4, _qnote)
 
-#define dfgf4 \
-__chord(a2,d3, _qnote), \
-g4, _qnote,\
-__chord(c3,f4, _qnote), \
-g4, _qnote_s, \
-__chord(d3,g3,_qnote), \
-__chord3(c3,f3,g4,_qnote), \
-g4,_enote,\
-_rest(_enote), \
-__chord3(g4,c3,a4,_qnote), \
-__chord3(g3,d3,g4,_qnote), \
-__chord3(d3,g3,f4,_qnote), \
-_root,_note,\
-f2,_note,\
-g2,_enote,\
-__chord(c3,d4,_qnote)
+#define dfgf4                         \
+    __chord(a2, d3, _qnote),          \
+        g4, _qnote,                   \
+        __chord(c3, f4, _qnote),      \
+        g4, _qnote_s,                 \
+        __chord(d3, g3, _qnote),      \
+        __chord3(c3, f3, g4, _qnote), \
+        g4, _enote,                   \
+        _rest(_enote),                \
+        __chord3(g4, c3, a4, _qnote), \
+        __chord3(g3, d3, g4, _qnote), \
+        __chord3(d3, g3, f4, _qnote), \
+        _root, _note,                 \
+        f2, _note,                    \
+        g2, _enote,                   \
+        __chord(c3, d4, _qnote)
 
-  
+#define dfgf5                         \
+    __chord(a2, d3, _qnote),          \
+        g4, _qnote,                   \
+        __chord(c3, f4, _qnote),      \
+        g4, _qnote_s,                 \
+        __chord(d3, g3, _qnote),      \
+        __chord3(c3, f3, g4, _qnote), \
+        g4, _enote,                   \
+        _rest(_enote),                \
+        __chord3(c3, f3, a4, _qnote), \
+        g3, _qnote,                   \
+        __chord3(d3, g3, f4, _qnote), \
+        __schord(_root, e4),          \
+        f2, _note,                    \
+        __chord(g2, e4, _enote),      \
+        __chord(c3, f4, _qnote)
+
+#define bassline_5                \
+    _root, _note,                 \
+        c3, _note,                \
+        d3, _enote, _tempo,       \
+        f3, _qnote,               \
+        _root, _qnote,            \
+        e3, _qnote,               \
+        __triplet(_root, c3, d3), \
+        f3, _qnote,               \
+        _root, _qnote,            \
+        e3, _qnote,               \
+        _root, _qnote,            \
+        __chord3(g3, d3, g4, 3 * _qnote)
+
 dfgf,
 dfgf2,
 dfgf3,
 dfgf4,
 dfgf3,
-dfgf4,
+dfgf5,
+bassline_5,

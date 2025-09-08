@@ -22,21 +22,20 @@
         _root, _qnote,            \
         f3, _qnote
 
-#define bassline_1a               \
-    _triplet_2_,                  \
-        __chord(f3, as3, _qnote), \
-        _root, _qnote,            \
-        __chord(a3, e3, _qnote),  \
-        _root, _qnote_s,          \
-        __schord(_root, g3),      \
-        __schord(_root, c3),      \
-        d3, _enote,               \
-        __chord(f3, as3, _qnote), \
-        _root, _qnote,            \
-        __chord(e3, a3, _qnote),  \
-        _root, _qnote,            \
-        __chord(g3, c4, _qnote),  \
+#define bassline_1a                 \
+    _triplet_2_,                    \
+        __chord(f3, as3, _qnote),   \
+        _root, _qnote,              \
+        __chord(e3, a3, _qnote),    \
+        _root, _qnote_s,            \
+        __chord(_root, g3, _qnote), \
+        __chord(f3, as3, _qnote),   \
+        _root, _qnote,              \
+        __chord(e3, a3, _qnote),    \
+        _root, _qnote,              \
+        __chord(g3, c4, _qnote),    \
         _root, _qnote
 
 bassline_1,
-    bassline_1a,
+bassline_2,
+bassline_1a,

@@ -243,6 +243,7 @@ static void settings_increment(countdown_state_t *state)
 #define g4 _root + 29
 #define a4 _root + 31
 #define as4 _root + 32
+#define b4 _root + 33
 
 #define _note 6
 #define _rest(X) BUZZER_NOTE_REST, X
@@ -278,18 +279,14 @@ static void settings_increment(countdown_state_t *state)
         __chord(Y, X + 12, (L) / 2)
 
 static const int8_t happy_birthday[] = {
+    _volume(25),
 #include "guitar_intro.chunk"
 #include "bassline_intro.chunk"
 #include "solo_vox.chunk"
 #include "bridge.chunk"
 #include "keychange.chunk"
 #include "breakdown.chunk"
-    // #include "bassline_intro.chunk"
 
-    // #include "bassline_intro.chunk"
-    // #include "bassandguitar.chunk"
-    // #include "bassline_intro.chunk"
-    // #include "bassandguitar.chunk"
 
     // _triplet,
 
